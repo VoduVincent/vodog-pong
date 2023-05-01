@@ -1,5 +1,6 @@
 #include "vodogEngine.c"
-#include "paddle.c"
+#include "cube.c"
+
 
 #include <stdio.h>
 #include <math.h>
@@ -29,15 +30,26 @@ int main(){
     }
     clock_t fps;
     clock_t delta_ticks = 0;
-    paddle player1;
-    player1.x = 0;
-    player1.y = 5;
-    player1.height = 6;
-    player1.width = 1;
-    player1.is_Ai = 0;
-
 
 	INPUT_RECORD inputs[128];
+
+
+
+    // Defining the Cube manually
+    cube cube1;
+         
+    cube1.vertcies[0].x = 5;
+    cube1.vertcies[0].y = 5;
+
+    cube1.vertcies[1].x = 10;
+    cube1.vertcies[1].y = 5;
+
+    cube1.vertcies[2].x = 5;
+    cube1.vertcies[2].y = 10;
+
+    cube1.vertcies[3].x = 10;
+    cube1.vertcies[3].y = 10;
+
     while(1){
         //Clear Screen
         for (size_t i = 0; i < SCREENSIZE; i++)
@@ -51,34 +63,9 @@ int main(){
         // gets all inputs from this frame
         inputhandle(inputs);
 
-        for (size_t i = 0; i < sizeof(inputs) / sizeof(INPUT_RECORD); i++)
-        {
-            switch (inputs[i].EventType)
-            {
-            case KEY_EVENT:
-                    if(inputs[i].Event.KeyEvent.uChar.AsciiChar == 119){
-                        player1.y -= 1;
-                    }                    
-                    if(inputs[i].Event.KeyEvent.uChar.AsciiChar == 115){
-                        player1.y += 1;
-                    }                
-                    break;
-            
-            default:
-                break;
-            }
-        }
-        
-        //Add player 1 to be renderde
-        for (size_t i = 0; i < roundf(player1.height); i++)
-        {
-            int player1YAbs = roundf(player1.y+i);
-            int player1XAbs = roundf(player1.x);
-            int index = (player1YAbs * SCREENWIDTH + player1XAbs);
-            frameBuffer[index]= 35;
-            
-        }
 
+        renderLines(cube1,frameBuffer);
+        drawpoints(cube1,frameBuffer);
         
 
         drawScreen(screen,frameBuffer,screensize,fps);

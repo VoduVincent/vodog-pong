@@ -1,3 +1,3 @@
-gcc main.c -o pong.exe
+gcc main.c -o donut.exe
 pause
-start pong.exe
+start donut.exe
